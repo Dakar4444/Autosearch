@@ -1,0 +1,50 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+
+{% block button1 %}
+    <a class="navbar-brand" style="font-size:1rem;" href="{% url "index" %}">
+        Поиск по номеру 
+    </a>
+{% endblock  %}
+
+
+{% block text_big %}
+    <h1 class="display-4 fw-bolder">Загрузка фото</h1>
+{% endblock %}
+
+
+{% block add_photo %}
+<section class="py-0">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="row no-gutters"> 
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group my-2 mx-2">
+                            <input type="file" class="form-control-file" id="images" name="images" multiple>
+                            <div id="preview-container" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+                            <p>Источник: фото добавлено пользователем</p>
+                        </div>
+                        <div class="form-group my-2 mx-2">
+                            <label for="id_gos_number">Введите гос. номер</label>
+                            <input type="text" class="form-control width: 100px; my-2" id="id_gos_number" name="gos_number" placeholder="4444EX7">
+                            <p>Данные будут отправлены на проверку, после чего, в случае одобрения, они появятся в базе данных.</p>
+                        </div>
+                        <button type="submit" class="btn btn-outline-success text-black my-2 mx-2">Добавить фото</button>
+                    </form>
+                    <script src="{% static 'deps/js/scripts.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block footer %}
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Автопоиск 2024</p></div>
+    </footer>
+{% endblock %}

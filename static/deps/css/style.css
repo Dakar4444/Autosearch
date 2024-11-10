@@ -1,0 +1,57 @@
+.ng-number_lg {
+  background-color: white;
+  display: flex;
+  border: 3px solid black;
+  width: 235px;
+  border-radius: 8px;
+}
+
+.ng-number__number {
+  display: flex;
+}
+
+.ng-number__number p {
+  align-self: center;
+  font-size: 36px;
+}
+
+.ng-number__region {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 45px;
+  padding: 2px 2px 5px 5px;
+  justify-content: center;
+}
+
+.ng-number__region .content {
+  font-size: 20px;
+  line-height: 16px;
+  font-weight: 700;
+  align-self: center;
+  color: black;
+}
+
+.ng-number__region img {
+  justify-content: center;
+}
+
+.series1 {
+  max-width: 90px;
+  font-size: 36px;
+}
+
+.number {
+  max-width: 60px;
+  font-size: 36px;
+}
+
+.series2 {
+  max-width: 30px;
+  font-size: 36px;
+  border-radius: 8px;
+}
+
+input {
+  outline: none;
+  border: none;
+}

@@ -1,0 +1,94 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+
+{% block button2 %}
+    <a class="navbar-brand" style="font-size:1rem;" href="{% url "download" %}">
+        Хотите добавить свои фото?
+    </a>
+{% endblock %}
+
+{% block text_big %}
+    <h1 class="display-4 fw-bolder" align="left">Автопоиск</h1>
+    <p class="lead fw-normal text-white-50 mb-0 my-2" align="left">Это сервис для поиска фотографий автомобилей по Белорусским гос. номерам. Пользователи могут легко найти фото нужного автомобиля и узнать историю его продаж, что позволяет получить больше информации о машине перед покупкой.</p>
+{% endblock %}
+
+
+{% block number_ramka %}
+    <form role="search" action="{% url "search" %}" method="get">
+        <div class="ng-number ng-number_lg my-4" data-carplate-input="" data-analytics="">
+            <div class="ng-number__region">
+                <img width="28" height="24" src="{% static "deps/assets/belarus.ico" %}" alt="">
+                <p class='content'>BY</p>
+            </div>
+            <div class="ng-number__number">
+                <input type="text" name="series1" class="series1" maxlength="4" placeholder="4444" autocomplete="off" required 
+                    oninput="validateInput(this, /^[0-9]{0,4}$/, '.series1-error', 'Поле должно содержать 4 цифры 0-9'); 
+                    autoTab(this, 4, '.number', null)" />
+                    
+                <input type="text" name="number" class="number" maxlength="2" placeholder="AA" autocomplete="off" required 
+                    oninput="this.value = this.value.toUpperCase(); validateInput(this, /^[ABCEHIKMOPTX]{0,2}$/, '.number-error', 'Поле должно содержать 2 латинские буквы A,B,C,E,H,I,K,M,O,P,T,X'); 
+                    autoTab(this, 2, '.series2', '.series1')" />
+                    
+                <p style="color:black;">-</p>
+
+                <input type="text" name="series2" class="series2" maxlength="1" placeholder="4" autocomplete="off" required 
+                    oninput="validateInput(this, /^[0-7]{0,1}$/, '.series2-error', 'Поле должно содержать одну цифру 0-7'); 
+                    autoTab(this, 1, null, '.number')" />
+                    
+                <button class="btn btn-outline-success text-white" style="margin-left:10px;" type="submit">Поиск</button>
+            </div>
+        </div>
+        <p class="error-message series1-error" style="color: red; display: none;" align="left"></p>
+        <p class="error-message number-error" style="color: red; display: none;" align="left"></p>
+        <p class="error-message series2-error" style="color: red; display: none;" align="left"></p>
+    </form>
+    <script src="{% static 'deps/js/number_ramka.js' %}"></script>
+{% endblock %}
+
+
+{% block all_photo %}
+    <div class="text-center text-dark">
+        <a class="navbar-brand" style="font-size:1.2rem;" href="{% url "catalog" %}">
+            Посмотреть все 
+        </a>
+    </div>    
+{% endblock %}
+
+
+{% block photo_auto %}
+<section class="py-3">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        {% for item in catalogs_with_photo %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    {% if item.first_photo %}
+                        <img class="card-img-top" style="width: 100%; height: 268px; object-fit: cover; image-rendering: auto;" src="{{ item.first_photo.photo.url }}" alt="Фото" />
+                    {% endif %}
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{ item.catalog.gos_number }}</h5>
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'history_car' item.catalog.gos_number %}">История</a></div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block footer %}
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Автопоиск 2024</p></div>
+    </footer>
+{% endblock %}

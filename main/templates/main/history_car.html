@@ -1,0 +1,60 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+
+{% block button1 %}
+    <a class="navbar-brand" style="font-size:1rem;" href="{% url "index" %}">
+        Поиск по номеру 
+    </a>
+{% endblock  %}
+
+
+{% block button2 %}
+    <a class="navbar-brand" style="font-size:1rem;" href="{% url "download" %}">
+        Хотите добавить свои фото?
+    </a>
+{% endblock %}
+
+
+{% block text_big %}
+    <h1 class="display-4 fw-bolder">История авто</h1>
+    <p class="lead fw-normal text-white-50" style="font-size:2rem;"><strong>{{ gos_numb.gos_number }}</strong></p>
+{% endblock %}
+
+
+{% block photo_auto %}
+{% for car in gos_numb %}
+<section class="py-0">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="row no-gutters"> 
+                    <!-- Product image-->
+                    <p class="lead fw-normal text-black-10 my-2 mx-2"><strong>{{ car.data_photo }}</strong></p>
+                    <div class="card-img-row">
+                        {% for photo in car.photos.all %}
+                            <a href="{{ photo.photo.url }}" target="_blank" rel="noopener noreferrer">
+                                <img class="small-photo mx-2" src="{{ photo.photo.url }}" alt="Фото" />
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <!-- Product details-->
+                    <div class="text-left">
+                        <p class="lead fw-normal text-black-10 my-2 mx-2"><strong>{{ car.gos_number }}</strong></p>
+                        <p class="fw-normal text-black-10 my-2 mx-2"><strong>Описание:</strong> {{ car.description }}</p>
+                        <p class="fw-normal text-black-10 my-2 mx-2"><strong>Источник:</strong> {{ car.slug }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endfor %}
+{% endblock %}
+
+
+{% block footer %}
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Автопоиск 2024</p></div>
+    </footer>
+{% endblock %}

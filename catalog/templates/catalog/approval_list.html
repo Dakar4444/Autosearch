@@ -1,0 +1,85 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+
+{% block button1 %}
+    <a class="navbar-brand" style="font-size:1rem;" href="{% url "index" %}">
+        Поиск по номеру 
+    </a>
+{% endblock  %}
+
+
+{% block button2 %}
+    <a class="navbar-brand" style="font-size:1rem;" href="{% url "download" %}">
+        Хотите добавить свои фото?
+    </a>
+{% endblock %}
+
+
+{% block text_big %}
+    <h1 class="display-4 fw-bolder">Модерация карточек</h1>
+{% endblock %}
+
+
+{% block photo_auto %}
+{% for catalog in catalogs %}
+<section class="py-0">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="row no-gutters">
+                    <!-- Product image -->
+                    <p class="lead fw-normal text-black-10 my-2 mx-2"><strong>{{ catalog.data_photo }}</strong></p>
+                    <div class="card-img-row">
+                        {% for photo in catalog.photos.all %}
+                            <div class="position-relative d-inline-block">
+                                <a href="{{ photo.photo.url }}" target="_blank" rel="noopener noreferrer">
+                                    <img class="small-photo mx-2" src="{{ photo.photo.url }}" alt="Фото">
+                                </a>
+                                <!-- Delete button -->
+                                <form action="{% url 'delete_photo' catalog.id photo.id %}" method="post" class="position-absolute" style="top: 0; right: 8px;">
+                                    {% csrf_token %}
+                                    <button type="submit" style="background: none; border: none; padding: 0;">
+                                        <img src="{% static 'deps/assets/delete.ico' %}" alt="Удалить" style="width: 20px; height: 20px; border-radius: 50%;">
+                                    </button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Product details -->
+                <form action="{% url 'edit_gos_number' catalog.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="gos_number" class="mx-2">Гос. номер:</label>
+                        <input type="text" class="form-control my-2 mx-2" name="gos_number" id="gos_number" value="{{ catalog.gos_number }}" maxlength="10">
+                    </div>
+                    <button class="btn btn-outline-primary my-2 mx-2" type="submit">Сохранить изменения</button>
+                </form>
+
+                <div class="text-left">
+                    <p class="fw-normal text-black-10 my-2 mx-2"><strong>Описание:</strong> {{ catalog.description }}</p>
+                    <p class="fw-normal text-black-10 my-2 mx-2"><strong>Источник:</strong> {{ catalog.slug }}</p>
+                </div>
+
+                <form action="{% url 'approve_catalog' catalog.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-success text-black my-2 mx-2" type="submit">Одобрить</button>
+                </form>
+                <form action="{% url 'delete_catalog' catalog.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger my-2 mx-2" type="submit">Удалить</button>
+                </form>                    
+            </div>
+        </div>
+    </div>
+</section>
+{% endfor %}
+{% endblock %}
+
+
+{% block footer %}
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Автопоиск 2024</p></div>
+    </footer>
+{% endblock %}

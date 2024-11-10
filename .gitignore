@@ -1,0 +1,5 @@
+catalogs_images
+migrations
+web_parser.py
+__pycache__
+venv

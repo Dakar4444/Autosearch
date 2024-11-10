@@ -1,0 +1,60 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+
+{% block button1 %}
+    <a class="navbar-brand" style="font-size:1rem;" href="{% url "index" %}">
+        Поиск по номеру 
+    </a>
+{% endblock  %}
+
+
+{% block button2 %}
+    <a class="navbar-brand" style="font-size:1rem;" href="{% url "download" %}">
+        Хотите добавить свои фото?
+    </a>
+{% endblock %}
+
+
+{% block text_big %}
+    <h1 class="display-4 fw-bolder">Автопоиск</h1>
+    <p class="lead fw-normal text-white-50 mb-0">Это сервис для поиска фотографий автомобилей по Белорусским гос. номерам. Пользователи могут легко найти фото нужного автомобиля и узнать историю его продаж, что позволяет получить больше информации о машине перед покупкой.</p>
+{% endblock %}
+
+
+{% block photo_auto %}
+    <section class="py-4">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-5 justify-content-center">
+        {% for item in catalogs_with_photo %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    {% if item.first_photo %}
+                        <img class="card-img-top" style="width: 100%; height: 204px; object-fit: cover; image-rendering: auto;" src="{{ item.first_photo.photo.url }}" alt="..." />
+                    {% endif %}
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{ item.catalog.gos_number }}</h5>
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'history_car' item.catalog.gos_number %}">История</a></div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    </section>
+{% endblock %}
+
+
+{% block footer %}
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Автопоиск 2024</p></div>
+    </footer>
+{% endblock %}
