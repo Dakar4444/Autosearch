@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('moderation/', views.moderation_view, name='moderation'),
     path('moderation/approval/', views.admin_approval_list, name='admin_approval_list'),
     path('moderation/delete_photo/<int:catalog_id>/<int:photo_id>/', views.delete_photo, name='delete_photo'),
     path('moderation/approve/<int:catalog_id>/', views.approve_catalog, name='approve_catalog'),

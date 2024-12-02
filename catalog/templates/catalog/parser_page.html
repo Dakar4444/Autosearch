@@ -1,0 +1,43 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+
+{% block text_big %}
+    <h1 class="display-4 fw-bolder">Модерация - Запуск парсера</h1>
+{% endblock %}
+
+
+{% block add_photo %}
+<section class="py-0 main">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="row no-gutters"> 
+                    <h2>Запуск парсера ВКонтакте</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" onclick="startParsing()">Начать парсинг</button>
+                        <div id="progress-container">
+                            <p>Прогресс парсинга: <span id="progress-text">0%</span></p>
+                            <div style="width: 30%; background-color: #ddd;">
+                                <div id="progress-bar" style="width: 0%; height: 20px; background-color: #4caf50;"></div>
+                            </div>
+                        </div>
+                    </form>
+                    {% if message %}
+                        <p>{{ message }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block footer %}
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Автопоиск 2024</p></div>
+    </footer>
+{% endblock %}

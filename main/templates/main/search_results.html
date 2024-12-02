@@ -24,7 +24,7 @@
 
 {% block photo_auto %}
 {% for result in results %} 
-<section class="py-0">
+<section class="py-0 main">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="col-12">
             <div class="card">
@@ -50,7 +50,7 @@
     </div>
 </section>
 {% empty %}
-    <p class="lead fw-bolder text-dark-100 mb-0">Результатов не найдено</p>
+    <p class="lead fw-bolder text-dark-100 display-6 mt-5 mx-auto main">Результатов не найдено</p>
 {% endfor %}
 {% endblock %}
 

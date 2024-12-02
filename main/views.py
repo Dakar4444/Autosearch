@@ -1,18 +1,17 @@
-import json
-from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from catalog.forms import VKParserForm
 from catalog.models import Catalogs, Gallery
+from catalog.web_parser import parse_vk_group_posts
 from main.forms import UploadMultipleImagesForm
-
 
 
 def index(request):
 
     distinct_catalogs= Catalogs.objects.filter(is_approved=True).prefetch_related('photos').all().order_by('gos_number', '-id').distinct('gos_number')
-    catalogs = distinct_catalogs[:8]
+    catalogs = distinct_catalogs[:10]
 
     catalogs_with_photo = []
     for catalog in catalogs:
@@ -78,7 +77,7 @@ def delete_photo(request, catalog_id, photo_id):
 
     if request.method == 'POST':
         photo.delete()  # Здесь вызовется метод delete из модели Gallery, который удалит файл
-        return redirect(reverse('admin_approval_list'))  # Замените 'moderation_page' на URL вашей страницы модерации
+        return redirect(reverse('admin_approval_list'))
     return redirect(reverse('admin_approval_list'))
 
 
@@ -109,6 +108,26 @@ def delete_catalog(request, catalog_id):
 
 #---------------------------------------------------------------------------------------------------#
 
+
+def moderation_view(request):
+    if request.method == 'POST':
+        form = VKParserForm(request.POST)
+        if form.is_valid():
+            token = form.cleaned_data['token']
+            group_id = form.cleaned_data['group_id']
+            
+            # Запуск парсера с введёнными значениями
+            parse_vk_group_posts(group_id=group_id, token=token)
+            
+            # Сообщение об успешном завершении
+            return render(request, 'catalog/parser_page.html', {'form': form, 'message': 'Парсинг завершён успешно!'})
+    else:
+        form = VKParserForm()
+    
+    return render(request, 'catalog/parser_page.html', {'form': form})
+
+
+#---------------------------------------------------------------------------------------------------#
 
 def catalog(request):
     catalogs= Catalogs.objects.filter(is_approved=True).prefetch_related('photos').all().distinct('gos_number')
