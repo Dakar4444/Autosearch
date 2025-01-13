@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django_recaptcha',
     'main',
     'catalog',
 ]
@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'main.middleware.CaptchaMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -137,3 +138,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+RECAPTCHA_PUBLIC_KEY = '6LfkSbYqAAAAAC9Aqb45bSQHzgSxVIROdmty5Pxe'
+RECAPTCHA_SECRET_KEY = '6LfkSbYqAAAAAMqwsRRQssU0_h2v4z6UEJ3sXxjy'
+# RECAPTCHA_DOMAIN = 'www.google.com'
+SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']

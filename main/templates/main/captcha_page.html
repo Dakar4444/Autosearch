@@ -1,0 +1,13 @@
+<html>
+<head>
+    <title>reCAPTCHA</title>
+</head>
+<body>
+    <h1>Подтвердите, что вы не робот</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>

@@ -1,11 +1,19 @@
 from django import forms
-
 from catalog.models import Gallery
-from .widgets import MultiFileInput
+
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Checkbox
+
+
+class CaptchaForm(forms.Form):
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+
 
 
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
+
+
 
 class MultipleFileField(forms.FileField):
     def __init__(self, *args, **kwargs):
@@ -19,6 +27,8 @@ class MultipleFileField(forms.FileField):
         else:
             result = single_file_clean(data, initial)
         return result
+
+
 
 class UploadMultipleImagesForm(forms.ModelForm):
     photo = MultipleFileField(label='Файл', required=False)

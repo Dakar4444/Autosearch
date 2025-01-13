@@ -5,7 +5,19 @@ from django.urls import reverse
 from catalog.forms import VKParserForm
 from catalog.models import Catalogs, Gallery
 from catalog.web_parser import parse_vk_group_posts
-from main.forms import UploadMultipleImagesForm
+from main.forms import UploadMultipleImagesForm, CaptchaForm
+
+
+def captcha_view(request):
+    if request.method == 'POST':
+        form = CaptchaForm(request.POST)
+        if form.is_valid():
+            # Устанавливаем флаг
+            request.session['captcha_verified'] = True
+            return redirect('index')
+    else:
+        form = CaptchaForm()
+    return render(request, 'main/captcha_page.html', {'form': form})
 
 
 def index(request):
