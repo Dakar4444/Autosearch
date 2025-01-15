@@ -1,13 +1,25 @@
+{% load static %}
+
 <html>
 <head>
     <title>reCAPTCHA</title>
+    <link href="{% static "deps/css/styles.css" %}" rel="stylesheet" />
 </head>
 <body>
-    <h1>Подтвердите, что вы не робот</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Отправить</button>
-    </form>
+
 </body>
+<header class="py-2 height: 100%;">
+    <div class="container px-4 px-lg-5" style="display: flex; height: 100%; align-items: center; justify-content: center;">
+        <form method="post">
+            {% csrf_token %}
+            <div style="text-align: center;">
+                <img src="{% static "deps/assets/favicon.ico" %}" alt="" width="40" height="40" class="d-inline-block align-text-top">
+                <p class="display-6 fw-bolder">Подтвердите, что вы не робот</p>
+                <div style="display: inline-block;">{{ form.as_p }}
+                    <button class="btn btn-outline-success text-dark" type="submit">Отправить</button>
+                </div>
+            </div>
+        </form>           
+    </div>
+</header>
 </html>
